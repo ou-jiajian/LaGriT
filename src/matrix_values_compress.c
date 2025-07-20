@@ -36,9 +36,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <math.h>
-
-/* function declaration */
-time();
+#include <time.h>
 
 /********************************skiplist.h******************************/
 
@@ -117,8 +115,8 @@ typedef struct _SkipList
 {
   struct SLNodeStruct *header;	   /* pointer to header */
 
-  int_ptrsize  (*compare)();
-  void (*freeitem)();
+  int_ptrsize  (*compare)(void *, void *);
+  void (*freeitem)(void *);
 
   int_ptrsize flags;
   int_ptrsize level;			   /* max index+1 of the forward array */
@@ -128,12 +126,12 @@ typedef struct _SkipList
 
 
 /* protos */
-SkipList   NewSL(int_ptrsize (*compare)(), void (*freeitem)(), int_ptrsize flags);
+SkipList   NewSL(int_ptrsize (*compare)(void *, void *), void (*freeitem)(void *), int_ptrsize flags);
 void	   FreeSL(SkipList l);
 int_ptrsize	   InsertSL(SkipList l, void *key);
 int_ptrsize	   DeleteSL(SkipList l, void *key);
 void	  *SearchSL(SkipList l, void *key);
-void	   DoForSL(SkipList  l, int_ptrsize (*function)(), void *arg);
+void	   DoForSL(SkipList  l, int_ptrsize (*function)(void *, void *), void *arg);
 
 #endif	/* SKIPLIST_H */
 
@@ -197,7 +195,7 @@ static int_ptrsize RandomLevelSL(SkipList l);
 
 
 /* functions */
-SkipList  NewSL(int_ptrsize (*compare)(), void (*freeitem)(), int_ptrsize flags)
+SkipList  NewSL(int_ptrsize (*compare)(void *, void *), void (*freeitem)(void *), int_ptrsize flags)
 {
   SkipList l;
   int_ptrsize i;
@@ -231,7 +229,7 @@ SkipList  NewSL(int_ptrsize (*compare)(), void (*freeitem)(), int_ptrsize flags)
 void FreeSL(SkipList l)
 {
   register SLNode p,q;
-  void (*freeitem)() = l->freeitem;
+  void (*freeitem)(void *) = l->freeitem;
 
   if (l == NULL || l->header == NULL)
     return;
@@ -288,7 +286,7 @@ int_ptrsize InsertSL(SkipList l, void *key)
   register int_ptrsize i,k;
   SLNode update[MaxNumberOfLevels];
   register SLNode p,q;
-  int_ptrsize (*compare)() = l->compare;
+  int_ptrsize (*compare)(void *, void *) = l->compare;
 
   p = l->header;
   for(k = l->level-1; k >= 0; k--)
@@ -340,8 +338,8 @@ int_ptrsize DeleteSL(SkipList l, void *key)
   register int_ptrsize k,m;
   SLNode update[MaxNumberOfLevels];
   register SLNode p,q;
-  int_ptrsize  (*compare)()  = l->compare;
-  void (*freeitem)() = l->freeitem;
+  int_ptrsize  (*compare)(void *, void *)  = l->compare;
+  void (*freeitem)(void *) = l->freeitem;
 
   p = l->header;
 
@@ -387,7 +385,7 @@ void *SearchSL(SkipList l, void *key)
 {
   register int_ptrsize k;
   register SLNode p,q;
-  int_ptrsize (*compare)() = l->compare;
+  int_ptrsize (*compare)(void *, void *) = l->compare;
 
   p = l->header;
   for(k=l->level-1; k >= 0; k--)
@@ -403,7 +401,7 @@ void *SearchSL(SkipList l, void *key)
 }
 
 
-void DoForSL(SkipList l, int_ptrsize (*function)(), void *arg)
+void DoForSL(SkipList l, int_ptrsize (*function)(void *, void *), void *arg)
 {
   register SLNode p,q;
 
@@ -506,13 +504,15 @@ void computeMaximums(double *xic, double *yic, double* zic,
 
 /************************************************************************/ 
 
-int_ptrsize entryCompare(entry *i, entry *j) 
+int_ptrsize entryCompare(void *i, void *j)
 
 /************************************************************************/ 
 
      /* used in the skiplist of compressed values  */
 
- { 
+ {
+   entry *ei = (entry *)i;
+   entry *ej = (entry *)j;
    int_ptrsize i1,i2;
    int_ptrsize k;
 
@@ -531,13 +531,13 @@ int_ptrsize entryCompare(entry *i, entry *j)
 
 
    for (k=i1; k<i2; k++) {
-     if (fabs((i->value[k] - j->value[k])) > (maximum[k]*epsilon)) {
-       if (i->value[k] < j->value[k]) {
+     if (fabs((ei->value[k] - ej->value[k])) > (maximum[k]*epsilon)) {
+       if (ei->value[k] < ej->value[k]) {
 	 return -1;
        } else {
 	 return 1;
        }
-     } 
+     }
    }
    return 0;   /* equal */
  }
@@ -545,14 +545,15 @@ int_ptrsize entryCompare(entry *i, entry *j)
 
 /************************************************************************/ 
 
-void entryFree(entry *i)
+void entryFree(void *i)
 
 /************************************************************************/ 
 
 
- { 
-   free(i->value);
-   free(i);
+ {
+   entry *e = (entry *)i;
+   free(e->value);
+   free(e);
  }
 
 
@@ -578,11 +579,12 @@ entry *entryCreate(double *v)
 
 /************************************************************************/
 
-int_ptrsize assignEntryNum(entry *ec)
+int_ptrsize assignEntryNum(void *key, void *arg)
 
 /************************************************************************/
 
 {
+  entry *ec = (entry *)key;
   entryNumber++;
   ec->entryNum = entryNumber;
   return 1;
@@ -590,18 +592,19 @@ int_ptrsize assignEntryNum(entry *ec)
 
 /************************************************************************/
 
-int_ptrsize populateX3dMatrixInfo(entry *ec)
+int_ptrsize populateX3dMatrixInfo(void *key, void *arg)
 
 /************************************************************************/
 
 {
+  entry *ec = (entry *)key;
   int_ptrsize k;
   x3dMatrixInfo *mi = MatrixInfo;
 
   mi->xmat[(ec->entryNum)-1]=ec->value[0];
   mi->ymat[(ec->entryNum)-1]=ec->value[1];
-  mi->zmat[(ec->entryNum)-1]=ec->value[2];  
-  mi-> mat[(ec->entryNum)-1]=ec->value[3];  
+  mi->zmat[(ec->entryNum)-1]=ec->value[2];
+  mi-> mat[(ec->entryNum)-1]=ec->value[3];
 
   return 1;
 }

@@ -48,34 +48,37 @@
 #include <stdio.h>
 
 /* Declare Functions */
-void gmvwriteopenfile(char filenam[]);
-void gmvwriteclosefile();
-void gmvwritenodedata(int nndes, float x[], float y[], float z[]);
-void gmvwritenodedatastruct(int nxv, int nyv, int nzv, float x[], float y[], float z[]);
-void gmvwritecellheader(int ncells);
-void gmvwritecelldata(char cell_data[], int nverts, int nodes[]);
-void gmvwritegeneralcelldata(char cell_data[], int nverts[], int nfaces, int nodeids[]);
-void gmvwritematerialheader(int nmats, int data_type);
-void gmvwritematerialname(char matname[]);
-void gmvwritematerialids(int matids[], int data_type);
-void gmvwritevelocitydata(int data_type, float u[], float v[], float w[]);
-void gmvwritenodedatalstruct(int nxv, int nyv, int nzv, float x[], float y[], float z[]);
-void gmvwritevariableheader();
-void gmvwritevariablenamedata(char varname[], int data_type, float vids[]);
-void gmvwritevariableendvars();
-void gmvwriteflagheader();
-void gmvwriteflagname(char flagname[], int data_type, int ntypes);
-void gmvwriteflagtype(char flagtype[]);
-void gmvwriteflagdata(int data_type, int iflag[]);
-void gmvwriteflagendflag();
-void gmvwritepolygonsheader();
-void gmvwritepolygonsdata(int nverts, int matnum, float x[], float y[], float z[]);
-void gmvwritepolygonsendpoly();
-void gmvwritetracersheader(int ntracers, float w[], float y[], float z[]);
-void gmvwritetracersnamedata(char tracername[], int ntracers, float data[]);
-void gmvwritetracersendtrace();
-void gmvwriteprobtime(float ptime);
-void gmvwritecycleno(int cyclenum);
+gmvwriteopenfile();
+gmvwriteclosefile();
+gmvwriteclosefile();
+gmvwritenodedata();
+gmvwritenodedata();
+gmvwritenodedatastruct();
+gmvwritecellheader();
+gmvwritecellheader();
+gmvwritecelldata();
+gmvwritegeneralcelldata();
+gmvwritematerialheader();
+gmvwritematerialname();
+gmvwritematerialids();
+gmvwritevelocitydata();
+gmvwritenodedatalstruct();
+gmvwritevariableheader();
+gmvwritevariablenamedata();
+gmvwritevariableendvars();
+gmvwriteflagheader();
+gmvwriteflagname();
+gmvwriteflagtype();
+gmvwriteflagdata();
+gmvwriteflagendflag();
+gmvwritepolygonsheader();
+gmvwritepolygonsdata();
+gmvwritepolygonsendpoly();
+gmvwritetracersheader();
+gmvwritetracersnamedata();
+gmvwritetracersendtrace();
+gmvwriteprobtime();
+gmvwritecycleno();
 
 /************************************************************************/
 void fgmvwriteopenfile_(char filnam[])

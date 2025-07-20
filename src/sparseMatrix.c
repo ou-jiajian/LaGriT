@@ -4,8 +4,6 @@
 #include "skiplist.ch"
 #include "type_sizes.h"
  
-extern double fabs();
- 
 /************************************************************************
 Purpose:  This .c file implements the symmetric sparse matrix abstract data
 type, with a compression option.  It contains routines that will

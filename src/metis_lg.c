@@ -69,7 +69,21 @@ All metis routines are concatenated below.
 #include "metis.h"
 
 /* function declaration */
-SelectQueueOneWay();
+int SelectQueueOneWay(int ncon, float *npwgts, float *tpwgts, int from, PQueueType queues[MAXNCON][2]);
+
+/* Windows compatibility for drand48/srand48 */
+#ifdef _WIN32
+static unsigned long int next = 1;
+
+void srand48(long int seedval) {
+    next = seedval;
+}
+
+double drand48(void) {
+    next = next * 1103515245 + 12345;
+    return (double)(next % 32768) / 32768.0;
+}
+#endif
 
 /*************************************************************************
 * This function is my wrapper around free, allows multiple pointers    
@@ -6739,7 +6753,7 @@ void EliminateVolSubDomainEdges(CtrlType *ctrl, GraphType *graph, int nparts, fl
   idxwspacefree(ctrl, nparts);
   idxwspacefree(ctrl, nvtxs);
 
-  GKfree(&cand, &cand2, LTERM);
+  GKfree((void**)&cand, (void**)&cand2, LTERM);
 }
 
 
@@ -18228,7 +18242,7 @@ void ComputePartitionInfo(GraphType *graph, int nparts, idxtype *where)
     graph->adjwgt = NULL;
   }
 
-  GKfree(&kpwgts, &padjncy, &padjwgt, &padjcut, LTERM);
+  GKfree((void**)&kpwgts, (void**)&padjncy, (void**)&padjwgt, (void**)&padjcut, LTERM);
 }
 
 
@@ -18332,7 +18346,7 @@ void ComputePartitionInfoBipartite(GraphType *graph, int nparts, idxtype *where)
     graph->adjwgt = NULL;
   }
 
-  GKfree(&kpwgts, &padjncy, &padjwgt, &padjcut, LTERM);
+  GKfree((void**)&kpwgts, (void**)&padjncy, (void**)&padjwgt, (void**)&padjcut, LTERM);
 }
 
 
@@ -19277,7 +19291,7 @@ void EliminateSubDomainEdges(CtrlType *ctrl, GraphType *graph, int nparts, float
   idxwspacefree(ctrl, nparts);
   idxwspacefree(ctrl, nvtxs);
 
-  GKfree(&cand, &cand2, LTERM);
+  GKfree((void**)&cand, (void**)&cand2, LTERM);
 }
 
 

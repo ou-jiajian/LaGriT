@@ -1,0 +1,61 @@
+name: lagrit-env
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  # Python 核心
+  - python=3.9
+  
+  # 构建工具
+  - cmake
+  - make
+  
+  # 科学计算库
+  - numpy
+  - scipy
+  - matplotlib
+  
+  # 数据处理
+  - pandas
+  - h5py
+  - netcdf4
+  
+  # 可视化
+  - vtk
+  - mayavi
+  
+  # 开发工具
+  - jupyter
+  - ipython
+  - spyder
+  
+  # 版本控制
+  - git
+  
+  # 文档工具
+  - sphinx
+  - sphinx_rtd_theme
+  
+  # 测试工具
+  - pytest
+  - pytest-cov
+  
+  # pip 依赖
+  - pip
+  - pip:
+    # PyLaGriT 特定依赖
+    - pexpect
+    # 可选的可视化工具
+    - pyvista
+    - meshio
+    # 开发工具
+    - black
+    - flake8
+    - pre-commit
+
+# 环境变量设置
+variables:
+  # 告诉某些包这是Windows环境
+  PYTHONIOENCODING: utf-8
+  # 避免一些Windows特有的编码问题
+  PYTHONUTF8: 1 
