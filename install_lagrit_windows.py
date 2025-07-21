@@ -49,20 +49,20 @@ class LaGriTInstaller:
                 result = subprocess.run([conda_path, "--version"], 
                                       capture_output=True, text=True, timeout=10)
                 if result.returncode == 0:
-                    print(f"✓ 找到 conda: {conda_path}")
+                    print(f"Found conda: {conda_path}")
                     return conda_path
             except (subprocess.SubprocessError, FileNotFoundError):
                 continue
         
-        raise RuntimeError("❌ 未找到 conda。请确保已安装 Anaconda 或 Miniconda")
+        raise RuntimeError("Not found conda. Please ensure Anaconda or Miniconda is installed")
     
     def check_platform(self):
         """检查系统平台"""
         if platform.system() != "Windows":
-            raise RuntimeError("❌ 此脚本只支持 Windows 系统")
+            raise RuntimeError("This script only supports Windows systems")
         
-        print(f"✓ 系统平台: {platform.system()} {platform.release()}")
-        print(f"✓ 架构: {platform.machine()}")
+        print(f"System platform: {platform.system()} {platform.release()}")
+        print(f"Architecture: {platform.machine()}")
     
     def install_msys2(self):
         """安装 MSYS2 (如果未安装)"""
