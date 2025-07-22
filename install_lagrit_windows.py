@@ -129,23 +129,23 @@ class LaGriTInstaller:
     def create_conda_env(self):
         """创建 conda 环境"""
         print(f"🐍 创建 conda 环境: {self.env_name}")
-        
+
         # 检查环境是否已存在
         try:
-            result = subprocess.run([self.conda_exe, "env", "list"], 
+            result = subprocess.run([self.conda_exe, "env", "list"],
                                   capture_output=True, text=True, check=True)
             if self.env_name in result.stdout:
                 print(f"✓ conda 环境 {self.env_name} 已存在")
                 return
         except subprocess.CalledProcessError:
             pass
-        
+
         # 创建环境
-        subprocess.run([
-            self.conda_exe, "create", "-n", self.env_name, "-y",
-            "python=3.9", "cmake", "numpy", "pexpect"
+            subprocess.run([
+                self.conda_exe, "create", "-n", self.env_name, "-y",
+                "python=3.9", "cmake", "numpy", "pexpect"
         ], check=True)
-        print(f"✓ conda 环境 {self.env_name} 创建完成")
+            print(f"✓ conda 环境 {self.env_name} 创建完成")
     
     def setup_environment_variables(self):
         """设置环境变量"""
