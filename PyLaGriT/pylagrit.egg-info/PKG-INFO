@@ -1,0 +1,10 @@
+Metadata-Version: 2.1
+Name: pylagrit
+Version: 1.0.1
+Summary: Python interface for LaGriT
+Home-page: lagrit.lanl.gov
+Author: Dylan R. Harp
+Author-email: dharp@lanl.gov
+License: LGPL
+Requires-Dist: pexpect>=4.6.0
+Requires-Dist: numpy

@@ -1,5 +1,1 @@
-cmo/create/quad                                                                 
-createpts/xyz/5,5,1/0.,0.,0./1.,1.,0.                                           
-connect                                                                         
-dump/gmv/test.gmv                                                               
 finish                                                                          

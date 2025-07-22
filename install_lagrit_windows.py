@@ -588,10 +588,20 @@ el"""
             # 添加构建目录到 PATH
             f.write(f'set "PATH={self.build_dir};%PATH%"\n\n')
             
-            f.write("echo ✓ LaGriT 环境已激活\n")
-            f.write("echo 可以运行以下命令:\n")
-            f.write("echo   lagrit        - 启动 LaGriT\n")
-            f.write("echo   python        - 启动 Python (如果安装了 PyLaGriT)\n")
+            # 验证lagrit.exe是否存在
+            f.write(f'if exist "{self.build_dir}\\lagrit.exe" (\n')
+            f.write('    echo ✓ LaGriT 环境已激活\n')
+            f.write('    echo 可以运行以下命令:\n')
+            f.write('    echo   lagrit        - 启动 LaGriT\n')
+            f.write('    echo   python        - 启动 Python (如果安装了 PyLaGriT)\n')
+            f.write('    echo.\n')
+            f.write('    echo 当前PATH中的LaGriT位置:\n')
+            f.write(f'    where lagrit\n')
+            f.write(') else (\n')
+            f.write('    echo ❌ 未找到 lagrit.exe\n')
+            f.write(f'    echo 请检查构建目录: {self.build_dir}\n')
+            f.write('    echo 如果文件不存在，请重新运行安装脚本\n')
+            f.write(')\n')
             f.write("echo.\n")
             f.write("cmd /k\n")  # 保持命令行开启
         
@@ -623,7 +633,15 @@ el"""
             f.write("### 如果 LaGriT 无法启动:\n")
             f.write("1. 检查 `lagrit.exe` 是否存在\n")
             f.write("2. 确保所有 DLL 依赖项可用\n")
-            f.write("3. 在 MSYS2 环境中测试\n\n")
+            f.write("3. 在 MSYS2 环境中测试\n")
+            f.write("4. 运行诊断脚本: `python diagnose_lagrit.py`\n")
+            f.write("5. 使用快速启动脚本: `quick_start_lagrit.bat`\n\n")
+            
+            f.write("### 如果提示 'lagrit' is not recognized:\n")
+            f.write("1. 运行 `python diagnose_lagrit.py` 检查安装状态\n")
+            f.write("2. 使用完整路径: `build\\lagrit.exe`\n")
+            f.write("3. 运行 `quick_start_lagrit.bat` 快速启动\n")
+            f.write("4. 或者手动设置PATH: `set PATH=build;%PATH%`\n\n")
             
             f.write("### PyLaGriT 使用注意:\n")
             f.write("- PyLaGriT 在 Windows 上支持有限\n")

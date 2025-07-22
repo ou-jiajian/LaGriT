@@ -1,0 +1,52 @@
+Change Dir: 'C:/Project/LaGriT/build/CMakeFiles/FortranCInterface/VerifyC'
+
+Run Build Command(s): C:/msys64/mingw64/bin/cmake.exe -E env VERBOSE=1 C:/msys64/mingw64/bin/mingw32-make.exe -f Makefile VerifyFortranC
+C:\msys64\mingw64\bin\cmake.exe -SC:\msys64\mingw64\share\cmake\Modules\FortranCInterface\Verify -BC:\Project\LaGriT\build\CMakeFiles\FortranCInterface\VerifyC --check-build-system CMakeFiles\Makefile.cmake 0
+C:/msys64/mingw64/bin/mingw32-make.exe  -f CMakeFiles\Makefile2 VerifyFortranC
+mingw32-make[1]: Entering directory 'C:/Project/LaGriT/build/CMakeFiles/FortranCInterface/VerifyC'
+C:\msys64\mingw64\bin\cmake.exe -SC:\msys64\mingw64\share\cmake\Modules\FortranCInterface\Verify -BC:\Project\LaGriT\build\CMakeFiles\FortranCInterface\VerifyC --check-build-system CMakeFiles\Makefile.cmake 0
+C:\msys64\mingw64\bin\cmake.exe -E cmake_progress_start C:\Project\LaGriT\build\CMakeFiles\FortranCInterface\VerifyC\CMakeFiles 5
+C:/msys64/mingw64/bin/mingw32-make.exe  -f CMakeFiles\Makefile2 CMakeFiles/VerifyFortranC.dir/all
+mingw32-make[2]: Entering directory 'C:/Project/LaGriT/build/CMakeFiles/FortranCInterface/VerifyC'
+C:/msys64/mingw64/bin/mingw32-make.exe  -f CMakeFiles\VerifyFortran.dir\build.make CMakeFiles/VerifyFortran.dir/depend
+mingw32-make[3]: Entering directory 'C:/Project/LaGriT/build/CMakeFiles/FortranCInterface/VerifyC'
+C:\msys64\mingw64\bin\cmake.exe -E cmake_depends "MinGW Makefiles" C:\msys64\mingw64\share\cmake\Modules\FortranCInterface\Verify C:\msys64\mingw64\share\cmake\Modules\FortranCInterface\Verify C:\Project\LaGriT\build\CMakeFiles\FortranCInterface\VerifyC C:\Project\LaGriT\build\CMakeFiles\FortranCInterface\VerifyC C:\Project\LaGriT\build\CMakeFiles\FortranCInterface\VerifyC\CMakeFiles\VerifyFortran.dir\DependInfo.cmake
+Dependee "C:\Project\LaGriT\build\CMakeFiles\FortranCInterface\VerifyC\CMakeFiles\VerifyFortran.dir\DependInfo.cmake" is newer than depender "C:/Project/LaGriT/build/CMakeFiles/FortranCInterface/VerifyC/CMakeFiles/VerifyFortran.dir/depend.internal".
+Dependee "C:/Project/LaGriT/build/CMakeFiles/FortranCInterface/VerifyC/CMakeFiles/CMakeDirectoryInformation.cmake" is newer than depender "C:/Project/LaGriT/build/CMakeFiles/FortranCInterface/VerifyC/CMakeFiles/VerifyFortran.dir/depend.internal".
+Scanning dependencies of target VerifyFortran
+mingw32-make[3]: Leaving directory 'C:/Project/LaGriT/build/CMakeFiles/FortranCInterface/VerifyC'
+C:/msys64/mingw64/bin/mingw32-make.exe  -f CMakeFiles\VerifyFortran.dir\build.make CMakeFiles/VerifyFortran.dir/build
+mingw32-make[3]: Entering directory 'C:/Project/LaGriT/build/CMakeFiles/FortranCInterface/VerifyC'
+[ 20%] Building Fortran object CMakeFiles/VerifyFortran.dir/VerifyFortran.f.obj
+C:\msys64\mingw64\bin\gfortran.exe  @CMakeFiles/VerifyFortran.dir/includes_Fortran.rsp -fcray-pointer -fdefault-integer-8 -std=legacy -fno-sign-zero -fno-range-check -O3 -c C:\msys64\mingw64\share\cmake\Modules\FortranCInterface\Verify\VerifyFortran.f -o CMakeFiles\VerifyFortran.dir\VerifyFortran.f.obj
+[ 40%] Linking Fortran static library libVerifyFortran.a
+C:\msys64\mingw64\bin\cmake.exe -P CMakeFiles\VerifyFortran.dir\cmake_clean_target.cmake
+C:\msys64\mingw64\bin\cmake.exe -E cmake_link_script CMakeFiles\VerifyFortran.dir\link.txt --verbose=1
+C:\msys64\mingw64\bin\ar.exe qc libVerifyFortran.a CMakeFiles/VerifyFortran.dir/VerifyFortran.f.obj
+C:\msys64\mingw64\bin\ranlib.exe libVerifyFortran.a
+mingw32-make[3]: Leaving directory 'C:/Project/LaGriT/build/CMakeFiles/FortranCInterface/VerifyC'
+[ 40%] Built target VerifyFortran
+C:/msys64/mingw64/bin/mingw32-make.exe  -f CMakeFiles\VerifyFortranC.dir\build.make CMakeFiles/VerifyFortranC.dir/depend
+mingw32-make[3]: Entering directory 'C:/Project/LaGriT/build/CMakeFiles/FortranCInterface/VerifyC'
+C:\msys64\mingw64\bin\cmake.exe -E cmake_depends "MinGW Makefiles" C:\msys64\mingw64\share\cmake\Modules\FortranCInterface\Verify C:\msys64\mingw64\share\cmake\Modules\FortranCInterface\Verify C:\Project\LaGriT\build\CMakeFiles\FortranCInterface\VerifyC C:\Project\LaGriT\build\CMakeFiles\FortranCInterface\VerifyC C:\Project\LaGriT\build\CMakeFiles\FortranCInterface\VerifyC\CMakeFiles\VerifyFortranC.dir\DependInfo.cmake
+Dependee "C:\Project\LaGriT\build\CMakeFiles\FortranCInterface\VerifyC\CMakeFiles\VerifyFortranC.dir\DependInfo.cmake" is newer than depender "C:/Project/LaGriT/build/CMakeFiles/FortranCInterface/VerifyC/CMakeFiles/VerifyFortranC.dir/depend.internal".
+Dependee "C:/Project/LaGriT/build/CMakeFiles/FortranCInterface/VerifyC/CMakeFiles/CMakeDirectoryInformation.cmake" is newer than depender "C:/Project/LaGriT/build/CMakeFiles/FortranCInterface/VerifyC/CMakeFiles/VerifyFortranC.dir/depend.internal".
+Scanning dependencies of target VerifyFortranC
+mingw32-make[3]: Leaving directory 'C:/Project/LaGriT/build/CMakeFiles/FortranCInterface/VerifyC'
+C:/msys64/mingw64/bin/mingw32-make.exe  -f CMakeFiles\VerifyFortranC.dir\build.make CMakeFiles/VerifyFortranC.dir/build
+mingw32-make[3]: Entering directory 'C:/Project/LaGriT/build/CMakeFiles/FortranCInterface/VerifyC'
+[ 60%] Building C object CMakeFiles/VerifyFortranC.dir/main.c.obj
+C:\msys64\mingw64\bin\gcc.exe  @CMakeFiles/VerifyFortranC.dir/includes_C.rsp -w -Wno-implicit-function-declaration -Wno-implicit-int -Wno-incompatible-pointer-types -w -m64 -O3 -DNDEBUG -o CMakeFiles\VerifyFortranC.dir\main.c.obj -c C:\msys64\mingw64\share\cmake\Modules\FortranCInterface\Verify\main.c
+[ 80%] Building C object CMakeFiles/VerifyFortranC.dir/VerifyC.c.obj
+C:\msys64\mingw64\bin\gcc.exe  @CMakeFiles/VerifyFortranC.dir/includes_C.rsp -w -Wno-implicit-function-declaration -Wno-implicit-int -Wno-incompatible-pointer-types -w -m64 -O3 -DNDEBUG -o CMakeFiles\VerifyFortranC.dir\VerifyC.c.obj -c C:\msys64\mingw64\share\cmake\Modules\FortranCInterface\Verify\VerifyC.c
+[100%] Linking C executable VerifyFortranC.exe
+C:\msys64\mingw64\bin\cmake.exe -E cmake_link_script CMakeFiles\VerifyFortranC.dir\link.txt --verbose=1
+C:\msys64\mingw64\bin\cmake.exe -E rm -f CMakeFiles\VerifyFortranC.dir/objects.a
+C:\msys64\mingw64\bin\ar.exe qc CMakeFiles\VerifyFortranC.dir/objects.a @CMakeFiles\VerifyFortranC.dir\objects1.rsp
+C:\msys64\mingw64\bin\gcc.exe -w -Wno-implicit-function-declaration -Wno-implicit-int -Wno-incompatible-pointer-types -w -m64 -O3 -DNDEBUG -Wl,--whole-archive CMakeFiles\VerifyFortranC.dir/objects.a -Wl,--no-whole-archive -o VerifyFortranC.exe -Wl,--out-implib,libVerifyFortranC.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\VerifyFortranC.dir\linkLibs.rsp
+mingw32-make[3]: Leaving directory 'C:/Project/LaGriT/build/CMakeFiles/FortranCInterface/VerifyC'
+[100%] Built target VerifyFortranC
+mingw32-make[2]: Leaving directory 'C:/Project/LaGriT/build/CMakeFiles/FortranCInterface/VerifyC'
+C:\msys64\mingw64\bin\cmake.exe -E cmake_progress_start C:\Project\LaGriT\build\CMakeFiles\FortranCInterface\VerifyC\CMakeFiles 0
+mingw32-make[1]: Leaving directory 'C:/Project/LaGriT/build/CMakeFiles/FortranCInterface/VerifyC'
+

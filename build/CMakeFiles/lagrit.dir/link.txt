@@ -1,0 +1,3 @@
+C:\msys64\mingw64\bin\cmake.exe -E rm -f CMakeFiles\lagrit.dir/objects.a
+C:\msys64\mingw64\bin\ar.exe qc CMakeFiles\lagrit.dir/objects.a @CMakeFiles\lagrit.dir\objects1.rsp
+C:\msys64\mingw64\bin\gfortran.exe  -fcray-pointer -fdefault-integer-8 -std=legacy -fno-sign-zero -fno-range-check -O3 -Wl,--whole-archive CMakeFiles\lagrit.dir/objects.a -Wl,--no-whole-archive -o lagrit.exe -Wl,--out-implib,liblagrit.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\lagrit.dir\linkLibs.rsp

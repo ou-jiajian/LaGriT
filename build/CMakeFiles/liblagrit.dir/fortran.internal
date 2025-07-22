@@ -1,0 +1,7 @@
+# The fortran modules provided by this target.
+provides
+ cgnodetype.mod
+ coloredgraphmodule.mod
+ colormapmodule.mod
+ graphmodule.mod
+ lowpassfiltermodule.mod
