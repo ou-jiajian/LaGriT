@@ -300,23 +300,39 @@ class LaGriTInstaller:
                 with open(metis_file, 'r', encoding='utf-8') as f:
                     content = f.read()
 
-                # 修复GKfree函数调用中的指针类型不匹配问题
-                # 添加显式类型转换
-                metis_fixes = [
-                    # 通用的GKfree修复，匹配所有GKfree调用
-                    (r'GKfree\(&([^,\)]+),([^)]*)\);', r'GKfree((void**)&\1,\2);'),
+                # 检查是否已经修复过
+                if content.count("(void**)&") > 10:
+                    print("✓ metis_lg.c 已经修复")
+                else:
+                    # 找到所有GKfree调用并修复
+                    import re
+                    gkfree_pattern = r'GKfree\(([^;]+)\);'
+                    matches = re.findall(gkfree_pattern, content)
                     
-                    # 防止重复转换
-                    (r'GKfree\(\(void\*\*\)\(void\*\*\)&([^,\)]+),([^)]*)\);', r'GKfree((void**)&\1,\2);'),
-                ]
+                    for match in matches:
+                        original_call = f"GKfree({match});"
+                        
+                        # 跳过已经修复的调用
+                        if "(void**)" in match:
+                            continue
+                            
+                        # 分析参数
+                        args = [arg.strip() for arg in match.split(',')]
+                        fixed_args = []
+                        
+                        for arg in args:
+                            # 如果是&开头的参数，需要转换为(void**)&
+                            if arg.startswith('&') and arg != 'LTERM':
+                                fixed_args.append(f"(void**){arg}")
+                            else:
+                                fixed_args.append(arg)
+                        
+                        fixed_call = f"GKfree({', '.join(fixed_args)});"
+                        content = content.replace(original_call, fixed_call)
 
-                for pattern, replacement in metis_fixes:
-                    content = re.sub(pattern, replacement, content)
-
-                with open(metis_file, 'w', encoding='utf-8') as f:
-                    f.write(content)
-
-                print("✓ 修复了 metis_lg.c")
+                    with open(metis_file, 'w', encoding='utf-8') as f:
+                        f.write(content)
+                    print("✓ 修复了 metis_lg.c")
 
             except Exception as e:
                 print(f"⚠️  修复 metis_lg.c 失败: {e}")

@@ -150,33 +150,51 @@ def fix_metis_pointer_error(project_dir):
         with open(metis_file, 'r', encoding='utf-8') as f:
             content = f.read()
         
-        # 检查是否已经修复
-        if "(void**)&" in content:
+        # 检查是否已经修复过（避免重复修复）
+        if content.count("(void**)&") > 10:  # 如果已经有很多转换，说明已修复
             print("✓ metis_lg.c 指针错误已经修复")
             return True
         
-        # 修复指针类型转换错误
-        fixes = [
-            # 修复GKfree调用中的指针类型不匹配
-            (r'GKfree\(&([^,\)]+),([^)]*)\);', r'GKfree((void**)&\1,\2);'),
+        # 找到所有GKfree调用并手动修复
+        import re
+        
+        # 首先找到所有的GKfree调用
+        gkfree_pattern = r'GKfree\(([^;]+)\);'
+        matches = re.findall(gkfree_pattern, content)
+        
+        print(f"🔍 找到 {len(matches)} 个GKfree调用")
+        
+        # 对每个调用进行修复
+        for match in matches:
+            original_call = f"GKfree({match});"
             
-            # 特殊处理一些复杂的调用
-            (r'GKfree\(\(void\*\*\)\(void\*\*\)&([^,\)]+),([^)]*)\);', r'GKfree((void**)&\1,\2);'),
-        ]
+            # 跳过已经修复的调用
+            if "(void**)" in match:
+                continue
+                
+            # 分析参数
+            args = [arg.strip() for arg in match.split(',')]
+            fixed_args = []
+            
+            for arg in args:
+                # 如果是&开头的参数，需要转换为(void**)&
+                if arg.startswith('&') and arg != 'LTERM':
+                    fixed_args.append(f"(void**){arg}")
+                else:
+                    fixed_args.append(arg)
+            
+            fixed_call = f"GKfree({', '.join(fixed_args)});"
+            
+            # 替换调用
+            content = content.replace(original_call, fixed_call)
+            print(f"✓ 修复: {original_call} -> {fixed_call}")
         
-        original_content = content
-        for pattern, replacement in fixes:
-            content = re.sub(pattern, replacement, content)
+        # 写回文件
+        with open(metis_file, 'w', encoding='utf-8') as f:
+            f.write(content)
         
-        # 如果内容有变化，写回文件
-        if content != original_content:
-            with open(metis_file, 'w', encoding='utf-8') as f:
-                f.write(content)
-            print("✓ 已修复 metis_lg.c 指针类型错误")
-            return True
-        else:
-            print("⚠️  未找到需要修复的指针错误")
-            return False
+        print("✓ 已修复 metis_lg.c 指针类型错误")
+        return True
             
     except Exception as e:
         print(f"❌ 修复 metis_lg.c 时出错: {e}")
