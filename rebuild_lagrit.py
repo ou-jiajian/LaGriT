@@ -10,6 +10,7 @@ import sys
 import subprocess
 from pathlib import Path
 import shutil
+import re
 
 def rebuild_lagrit():
     """重新编译LaGriT"""
@@ -84,7 +85,21 @@ def rebuild_lagrit():
         if result.returncode != 0:
             print("❌ 编译失败")
             print("错误信息:", result.stderr[-1000:])
-            return False
+            
+            # 检查是否是已知的metis_lg.c指针类型错误
+            if "incompatible pointer type" in result.stderr and "metis_lg.c" in result.stderr:
+                print("\n🔧 检测到metis_lg.c指针类型错误，正在修复...")
+                if fix_metis_pointer_error(current_dir):
+                    print("🔄 重新尝试编译...")
+                    result = subprocess.run(make_cmd, env=env, capture_output=True, text=True, timeout=1800)
+                    if result.returncode != 0:
+                        print("❌ 修复后编译仍然失败")
+                        print("错误信息:", result.stderr[-1000:])
+                        return False
+                else:
+                    return False
+            else:
+                return False
         
         print("✓ 编译完成")
         
@@ -121,6 +136,51 @@ def rebuild_lagrit():
         return False
     finally:
         os.chdir(current_dir)
+
+def fix_metis_pointer_error(project_dir):
+    """修复metis_lg.c中的指针类型错误"""
+    metis_file = project_dir / "src" / "metis_lg.c"
+    
+    if not metis_file.exists():
+        print("⚠️  metis_lg.c 文件不存在")
+        return False
+    
+    try:
+        # 读取文件内容
+        with open(metis_file, 'r', encoding='utf-8') as f:
+            content = f.read()
+        
+        # 检查是否已经修复
+        if "(void**)&" in content:
+            print("✓ metis_lg.c 指针错误已经修复")
+            return True
+        
+        # 修复指针类型转换错误
+        fixes = [
+            # 修复GKfree调用中的指针类型不匹配
+            (r'GKfree\(&([^,\)]+),([^)]*)\);', r'GKfree((void**)&\1,\2);'),
+            
+            # 特殊处理一些复杂的调用
+            (r'GKfree\(\(void\*\*\)\(void\*\*\)&([^,\)]+),([^)]*)\);', r'GKfree((void**)&\1,\2);'),
+        ]
+        
+        original_content = content
+        for pattern, replacement in fixes:
+            content = re.sub(pattern, replacement, content)
+        
+        # 如果内容有变化，写回文件
+        if content != original_content:
+            with open(metis_file, 'w', encoding='utf-8') as f:
+                f.write(content)
+            print("✓ 已修复 metis_lg.c 指针类型错误")
+            return True
+        else:
+            print("⚠️  未找到需要修复的指针错误")
+            return False
+            
+    except Exception as e:
+        print(f"❌ 修复 metis_lg.c 时出错: {e}")
+        return False
 
 def main():
     """主函数"""

@@ -303,11 +303,11 @@ class LaGriTInstaller:
                 # 修复GKfree函数调用中的指针类型不匹配问题
                 # 添加显式类型转换
                 metis_fixes = [
-                    (r'GKfree\(&kpwgts,\s*&padjncy,\s*&padjwgt,\s*&padjcut,\s*LTERM\);',
-                     'GKfree((void**)&kpwgts, (void**)&padjncy, (void**)&padjwgt, (void**)&padjcut, LTERM);'),
-
-                    (r'GKfree\(&cand,\s*&cand2,\s*LTERM\);',
-                     'GKfree((void**)&cand, (void**)&cand2, LTERM);'),
+                    # 通用的GKfree修复，匹配所有GKfree调用
+                    (r'GKfree\(&([^,\)]+),([^)]*)\);', r'GKfree((void**)&\1,\2);'),
+                    
+                    # 防止重复转换
+                    (r'GKfree\(\(void\*\*\)\(void\*\*\)&([^,\)]+),([^)]*)\);', r'GKfree((void**)&\1,\2);'),
                 ]
 
                 for pattern, replacement in metis_fixes:
